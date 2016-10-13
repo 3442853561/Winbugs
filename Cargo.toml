@@ -1,0 +1,11 @@
+[package]
+    name    = "Winbugs"
+	version = "0.1.0"
+	authors = ["3442853561<3442853561@qq.com>"]
+
+[[test]]
+    name    = "ffi"
+	path    = "src/ffi.rs"
+	
+[dependencies]
+    libc    = "0.2.9"
