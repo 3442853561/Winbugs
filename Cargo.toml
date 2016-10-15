@@ -7,5 +7,9 @@
     name    = "ffi"
     path    = "src/ffi.rs"
 	
+[lib]
+    name    = "winbugs"
+	path    = "src/winbugs.a"
+
 [dependencies]
     libc    = "0.2.9"
