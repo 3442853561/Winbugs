@@ -4,12 +4,8 @@
 	authors = ["3442853561<3442853561@qq.com>"]
 
 [[bin]]
-    name    = "ffi"
-    path    = "src/ffi.rs"
+    name    = "main"
+    path    = "src/main.rs"
 	
-[lib]
-    name    = "winbugs"
-	path    = "src/winbugs.a"
 
 [dependencies]
-    libc    = "0.2.9"
