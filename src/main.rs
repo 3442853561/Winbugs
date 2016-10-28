@@ -13,6 +13,18 @@ extern "C" {
 
 }
 
+const RS_OKONLY: u8 = 0;
+const RS_OKCANCEL: u8 = 1;
+const RS_ABORTRETRYIGNORE: u8 = 2;
+const RS_YESNOCANCEL: u8 = 3;
+const RS_YESNO: u8 = 4;
+const RS_RETRYCANCEL: u8 = 5;
+const RS_CANCELRETRYCONTINUE: u8 = 6;
+const RS_CRITICALPLUS: u8 = 16;
+const RS_QUESTIONPLUS: u8 = 32;
+const RS_EXCLAMATIONPLUS: u8 = 48;
+const RS_INFORMATIONPLUS: u8 = 64;
+
 fn txt(text: &str)->CString{
 	CString::new(text).unwrap()
 }
@@ -35,5 +47,5 @@ fn main() {
 		screenHeight()
 	};
 	print!("{}",height);
-    msgbox("my_text","my_title",1);
+    msgbox("my_text","my_title",RS_OKONLY + RS_INFORMATIONPLUS);
 }
