@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <windows.h>
 
-void wbMsgbox(char* text,char* title)
+void wbMsgbox(char* text,char* title,int style)
 {
-	MessageBox (NULL,text,title,0);
+	MessageBox (NULL,text,title,style);
 }
 
 int screenWidth()
