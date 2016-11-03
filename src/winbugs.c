@@ -16,3 +16,8 @@ int screenHeight()
 {
 	return GetSystemMetrics(SM_CYSCREEN);
 }
+
+void wbAbout(char* appName,char* appString)
+{
+	ShellAboutA(NULL,appName,appString,0);
+}
