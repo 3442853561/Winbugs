@@ -4,6 +4,7 @@ use libc::c_int;
 use std::ffi::CString;
 use std::os::raw::c_char;
 
+enum cWindow {}
 
 #[link(name="winbugs")]
 extern "C" {
@@ -11,7 +12,8 @@ extern "C" {
 	fn screenWidth()->size_t;
 	fn screenHeight()->size_t;
 	fn wbAbout(appName: *const c_char,appString: *const c_char);
-
+	fn cWindow_new(name: *const c_char)->cWindow;
+	fn cWindow_show(foo: cWindow);
 }
 
 const OKONLY: u8 = 0;
@@ -34,6 +36,8 @@ const IGNORE:u8 = 5;
 const YES:u8 = 6;
 const NO:u8 = 7;
 
+
+
 fn txt(text: &str)->CString{
 	CString::new(text).unwrap()
 }
@@ -55,7 +59,13 @@ fn msgbox(text: &str,title: &str,style: u8)->u8 {
 		}
 	}
 }
-
+fn wbnew(name: &str){
+	let self_name = txt(name);
+	unsafe {
+		let foo: cWindow = cWindow_new(self_name.as_ptr());
+		cWindow_show(foo);
+	}
+}
 fn about(name: &str,text: &str) {
 	let self_name = txt(name);
     let self_text = txt(text);
@@ -65,13 +75,14 @@ fn about(name: &str,text: &str) {
 }
 
 fn main() {
-	let width: size_t = unsafe {
-		screenWidth()
-	};
-	let height: size_t = unsafe {
-		screenHeight()
-	};
-    let x=msgbox("my_text","my_title",ABORTRETRYIGNORE + INFORMATIONPLUS);
-	print!("{}",x);
-	about("my_app","my_text");
+	//let width: size_t = unsafe {
+	//	screenWidth()
+	//};
+	//let height: size_t = unsafe {
+	//	screenHeight()
+	//};
+    //let x=msgbox("my_text","my_title",ABORTRETRYIGNORE + INFORMATIONPLUS);
+	//print!("{}",x);
+	//about("my_app","my_text");
+	wbnew("text");
 }
