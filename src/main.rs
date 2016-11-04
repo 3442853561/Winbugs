@@ -13,7 +13,6 @@ extern "C" {
 	fn screenHeight()->size_t;
 	fn wbAbout(appName: *const c_char,appString: *const c_char);
 	fn cWindow_new(name: *const c_char)->cWindow;
-	fn cWindow_show(foo: cWindow);
 }
 
 const OKONLY: u8 = 0;
@@ -49,7 +48,6 @@ fn msgbox(text: &str,title: &str,style: u8)->u8 {
 	unsafe {
 		match wbMsgbox(self_text.as_ptr(),self_title.as_ptr(),self_style){
 			1 => OK,
-			2 => CANCEL,
 			3 => ABORT,
 			4 => RETRY,
 			5 => IGNORE,
@@ -63,7 +61,6 @@ fn wbnew(name: &str){
 	let self_name = txt(name);
 	unsafe {
 		let foo: cWindow = cWindow_new(self_name.as_ptr());
-		cWindow_show(foo);
 	}
 }
 fn about(name: &str,text: &str) {

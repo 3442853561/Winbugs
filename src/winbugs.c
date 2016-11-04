@@ -1,12 +1,15 @@
 //winbugs.c
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+
 typedef struct cWindow
 {
 	char *caption;
 	HWND hwnd;
 	WNDCLASSEX wndclass;
+	MSG msg;
 	int showstyle;
 }cWindow;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
@@ -33,14 +36,16 @@ void wbAbout(char* appName,char* appString)
 cWindow cWindow_new(char name[128])
 {
 	int flag = 0;
+	char like[256];
+	HINSTANCE hInstance=GetModuleHandle(NULL);
 	cWindow foo;
-	HINSTANCE hInstance = (HINSTANCE)GetModuleHandle(NULL);
+	memset(&foo.wndclass,0,sizeof(foo.wndclass));
 	foo.wndclass.cbSize        = sizeof(WNDCLASSEX);
 	foo.wndclass.lpfnWndProc   = WndProc;
 	foo.wndclass.hInstance     = hInstance;
 	foo.wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	foo.wndclass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-	foo.wndclass.lpszClassName = "Windofoo.wndclasslass";
+	foo.wndclass.lpszClassName = name;
 	foo.wndclass.hIcon		   = LoadIcon(NULL, IDI_APPLICATION); 
 	foo.wndclass.hIconSm       = LoadIcon(NULL, IDI_APPLICATION); 
 	foo.caption                = NULL;
@@ -58,7 +63,7 @@ cWindow cWindow_new(char name[128])
 			return foo;
 		} 
 	}
-	foo.hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,TEXT(name),TEXT("Unnamed Form"),WS_VISIBLE|WS_OVERLAPPEDWINDOW,
+	foo.hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,name,"Unnamed Form",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, /* x */
 		CW_USEDEFAULT, /* y */
 		640, /* width */
@@ -66,14 +71,24 @@ cWindow cWindow_new(char name[128])
 		NULL,NULL,hInstance,NULL);
 	if(foo.hwnd == NULL) {
 		wbMsgbox("Window Creation Failed.","Error",18);
+		sprintf(like,"%d",hInstance);
+		wbMsgbox(like,"Message",0);
 	}
 	return foo;
 }
 
-void cWindow_show(cWindow foo)
-{
-	ShowWindow(foo.hwnd, foo.showstyle);
-	UpdateWindow(foo.hwnd);
+LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	switch(Message) {
+		
+		/* Upon destruction, tell the main thread to stop */
+		case WM_DESTROY: {
+			PostQuitMessage(0);
+			break;
+		}
+		
+		/* All other messages (a lot of them) are processed using default procedures */
+		default:
+			return DefWindowProc(hwnd, Message, wParam, lParam);
+	}
+	return 0;
 }
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam){return 0;}
