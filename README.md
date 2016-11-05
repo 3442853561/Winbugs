@@ -1,4 +1,4 @@
-![logo](/logo.bmp)  
+#![logo](/logo.png)Winbugs  
 I need help developing this project.
 - Write documents
 - Fix bugs and potential problems
