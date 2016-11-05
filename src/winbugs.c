@@ -33,10 +33,9 @@ void wbAbout(char* appName,char* appString)
 	ShellAboutA(NULL,appName,appString,0);
 }
 
-cWindow cWindow_new(char name[128])
+cWindow cWindow_new(char *name)
 {
 	int flag = 0;
-	char like[256];
 	HINSTANCE hInstance=GetModuleHandle(NULL);
 	cWindow foo;
 	memset(&foo.wndclass,0,sizeof(foo.wndclass));
@@ -64,29 +63,40 @@ cWindow cWindow_new(char name[128])
 		} 
 	}
 	foo.hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,name,"Unnamed Form",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, /* x */
-		CW_USEDEFAULT, /* y */
-		640, /* width */
-		480, /* height */
+		CW_USEDEFAULT, 
+		CW_USEDEFAULT, 
+		640, 
+		480, 
 		NULL,NULL,hInstance,NULL);
 	if(foo.hwnd == NULL) {
-		wbMsgbox("Window Creation Failed.","Error",18);
-		sprintf(like,"%d",hInstance);
-		wbMsgbox(like,"Message",0);
+		flag = wbMsgbox("Window Creation Failed.","Error",18);
+		while(flag == 4)
+		{
+			foo.hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,name,"Unnamed Form",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			550,
+			400,
+			NULL,NULL,hInstance,NULL);
+			if(foo.hwnd == NULL)
+				flag = wbMsgbox("Window Creation Failed.","Error",18);
+			else
+				flag = 1;
+		}
+	}
+	while(GetMessage(&foo.msg, NULL, 0, 0) > 0) {
+		TranslateMessage(&foo.msg);
+		DispatchMessage(&foo.msg);
 	}
 	return foo;
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
-		
-		/* Upon destruction, tell the main thread to stop */
 		case WM_DESTROY: {
-			PostQuitMessage(0);
+			exit(0);
 			break;
 		}
-		
-		/* All other messages (a lot of them) are processed using default procedures */
 		default:
 			return DefWindowProc(hwnd, Message, wParam, lParam);
 	}

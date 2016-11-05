@@ -15,25 +15,25 @@ extern "C" {
 	fn cWindow_new(name: *const c_char)->cWindow;
 }
 
-const OKONLY: u8 = 0;
-const OKCANCEL: u8 = 1;
-const ABORTRETRYIGNORE: u8 = 2;
-const YESNOCANCEL: u8 = 3;
-const YESNO: u8 = 4;
-const RETRYCANCEL: u8 = 5;
-const CANCELRETRYCONTINUE: u8 = 6;
-const CRITICALPLUS: u8 = 16;
-const QUESTIONPLUS: u8 = 32;
-const EXCLAMATIONPLUS: u8 = 48;
-const INFORMATIONPLUS: u8 = 64;
-const UNKNOWN: u8 = 0;
-const OK:u8 = 1;
-const CANCEL:u8 = 2;
-const ABORT:u8 = 3;
-const RETRY:u8 = 4;
-const IGNORE:u8 = 5;
-const YES:u8 = 6;
-const NO:u8 = 7;
+pub const OKONLY: u8 = 0;
+pub const OKCANCEL: u8 = 1;
+pub const ABORTRETRYIGNORE: u8 = 2;
+pub const YESNOCANCEL: u8 = 3;
+pub const YESNO: u8 = 4;
+pub const RETRYCANCEL: u8 = 5;
+pub const CANCELRETRYCONTINUE: u8 = 6;
+pub const CRITICALPLUS: u8 = 16;
+pub const QUESTIONPLUS: u8 = 32;
+pub const EXCLAMATIONPLUS: u8 = 48;
+pub const INFORMATIONPLUS: u8 = 64;
+pub const UNKNOWN: u8 = 0;
+pub const OK:u8 = 1;
+pub const CANCEL:u8 = 2;
+pub const ABORT:u8 = 3;
+pub const RETRY:u8 = 4;
+pub const IGNORE:u8 = 5;
+pub const YES:u8 = 6;
+pub const NO:u8 = 7;
 
 
 
@@ -41,7 +41,19 @@ fn txt(text: &str)->CString{
 	CString::new(text).unwrap()
 }
 
-fn msgbox(text: &str,title: &str,style: u8)->u8 {
+pub fn screen_width()->u32 {
+	unsafe {
+		screenWidth() as u32
+	}
+}
+
+pub fn screen_height()->u32 {
+	unsafe {
+		screenHeight() as u32
+	}
+}
+
+pub fn msgbox(text: &str,title: &str,style: u8)->u8 {
 	let self_title = txt(title);
     let self_text = txt(text);
 	let self_style: c_int = style as c_int;
@@ -57,13 +69,15 @@ fn msgbox(text: &str,title: &str,style: u8)->u8 {
 		}
 	}
 }
-fn wbnew(name: &str){
+
+pub fn form_new(name: &str){
 	let self_name = txt(name);
 	unsafe {
 		let foo: cWindow = cWindow_new(self_name.as_ptr());
 	}
 }
-fn about(name: &str,text: &str) {
+
+pub fn about(name: &str,text: &str) {
 	let self_name = txt(name);
     let self_text = txt(text);
 	unsafe {
@@ -81,5 +95,5 @@ fn main() {
     //let x=msgbox("my_text","my_title",ABORTRETRYIGNORE + INFORMATIONPLUS);
 	//print!("{}",x);
 	//about("my_app","my_text");
-	wbnew("text");
+	form_new("text");
 }
