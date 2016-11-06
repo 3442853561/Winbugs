@@ -65,8 +65,8 @@ cWindow cWindow_new(char *name)
 	foo.hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,name,"Unnamed Form",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 
 		CW_USEDEFAULT, 
-		640, 
-		480, 
+		550, 
+		400, 
 		NULL,NULL,hInstance,NULL);
 	if(foo.hwnd == NULL) {
 		flag = wbMsgbox("Window Creation Failed.","Error",18);

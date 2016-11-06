@@ -35,7 +35,11 @@ pub const IGNORE:u8 = 5;
 pub const YES:u8 = 6;
 pub const NO:u8 = 7;
 
-
+struct Form{
+	caption: String,
+	
+	style: u8,
+}
 
 fn txt(text: &str)->CString{
 	CString::new(text).unwrap()
