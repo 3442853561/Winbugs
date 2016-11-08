@@ -35,10 +35,15 @@ pub const IGNORE: u8 = 5;
 pub const YES: u8 = 6;
 pub const NO: u8 = 7;
 
-struct Form {
+pub struct Form {
+    id: String,
     caption: String,
-
-    style: u8,
+    height: u32,
+    left: u32,
+    top: u32,
+    visible: bool,
+    width: u32,
+    windowstate: u8,
 }
 
 fn txt(text: &str) -> CString {
