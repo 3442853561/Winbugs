@@ -44,8 +44,15 @@ pub struct Form {
     visible: bool,
     width: u32,
     windowstate: u8,
+    backcolor: u32,
+    borderstyle: u8,
+    drawmode: i8,
+    drawstyle: u8,
+    drawwidth: u32,
+    enabled: bool,
+    fillcolor: u32,
+    fillstyle: u8,
 }
-
 fn txt(text: &str) -> CString {
     CString::new(text).unwrap()
 }
