@@ -93,6 +93,12 @@ cWindow cWindow_new(char *name)
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
+		case WM_GETMINMAXINFO: {
+			break;
+		}
+		case WM_HELP: {
+			break;
+		}
 		case WM_DESTROY: {
 			exit(0);
 			break;
